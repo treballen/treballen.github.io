@@ -1,1 +1,163 @@
-# treballen.github.io
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Harry Potter Personality Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    h1 {
+        text-align: center;
+    }
+    .question {
+        margin-bottom: 20px;
+    }
+    button {
+        background: #6366f1;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        margin-top: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    button:hover {
+        background: #4f46e5;
+    }
+    .result {
+        margin-top: 30px;
+        padding: 20px;
+        background: #334155;
+        border-radius: 8px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>🧙 Harry Potter Personality Quiz</h1>
+<p>Choose one statement from each group:</p>
+
+<form id="quizForm"></form>
+
+<button onclick="calculateResult()">Get Result</button>
+
+<div id="result" class="result" style="display:none;"></div>
+</div>
+
+<script>
+const questions = [
+[
+["Tackles demanding goals with urgency and sustained energy", "A"],
+["Seeks feedback proactively and applies it quickly", "B"],
+["Inspires and mobilizes others around a compelling objective", "C"]
+],
+[
+["Maintains poise and clarity when stakes are high", "C"],
+["Shares credit freely and remains modest about achievements", "B"],
+["Upholds principles and chooses the right path over the easy one", "C"]
+],
+[
+["Pushes through obstacles to deliver results ahead of schedule", "A"],
+["Commands attention through confident communication", "C"],
+["Welcomes critique and turns it into improvements", "B"]
+],
+[
+["Aligns teams behind a common vision", "C"],
+["Demonstrates modesty during success", "B"],
+["Acts with transparency and honesty", "C"]
+],
+[
+["Drives momentum and meets timelines", "A"],
+["Acknowledges others’ contributions", "B"],
+["Projects composure in formal settings", "C"]
+],
+[
+["Adapts rapidly after guidance", "A"],
+["Guides peers and builds commitment", "C"],
+["Chooses ethical action under pressure", "C"]
+],
+[
+["Works relentlessly to surpass goals", "A"],
+["Incorporates feedback to improve", "B"],
+["Exudes confidence socially", "C"]
+],
+[
+["Rallies others to achieve goals", "A"],
+["Credits teammates first", "B"],
+["Holds high moral standards", "C"]
+]
+];
+
+const form = document.getElementById("quizForm");
+
+questions.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `<h3>Question ${i+1}</h3>`;
+   
+    q.forEach((opt, j) => {
+        div.innerHTML += `
+        <label>
+            <input type="radio" name="q${i}" value="${opt[1]}" required>
+            ${opt[0]}
+        </label><br>`;
+    });
+   
+    form.appendChild(div);
+});
+
+function calculateResult() {
+    let A = 0, B = 0, C = 0;
+    const formData = new FormData(form);
+
+    for (let value of formData.values()) {
+        if (value === "A") A++;
+        if (value === "B") B++;
+        if (value === "C") C++;
+    }
+
+    let resultText = "";
+
+    if (A > B && A > C) {
+        resultText = "🟥 Fred & George Weasley — Energetic, bold, and relentlessly driven.";
+    }
+    else if (B > A && B > C) {
+        resultText = "🟦 Neville Longbottom — Humble, resilient, and quietly powerful.";
+    }
+    else if (C > A && C > B) {
+        resultText = "🟩 Remus Lupin — Principled, calm, and deeply respected.";
+    }
+    else if (A === C && A > B) {
+        resultText = "🟨 Nymphadora Tonks — Adaptive, brave, and action-oriented.";
+    }
+    else if (B === C && B > A) {
+        resultText = "🟪 Arthur Weasley — Ethical, kind, and quietly influential.";
+    }
+    else if (A === B && A > C) {
+        resultText = "🟧 Ginny Weasley — Confident, grounded, and strong-willed.";
+    }
+    else {
+        resultText = "⭐ Minerva McGonagall — Balanced, composed, and exceptionally capable.";
+    }
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `<h2>Your Result:</h2><p>${resultText}</p>`;
+}
+</script>
+
+</body>
+</html> 
