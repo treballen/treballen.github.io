@@ -2,57 +2,119 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Harry Potter Personality Quiz</title>
+<title>Wizarding World Personality Quiz</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #0f172a;
-        color: white;
-        margin: 0;
-        padding: 20px;
-    }
-    .container {
-        max-width: 800px;
-        margin: auto;
-        background: #1e293b;
-        padding: 20px;
-        border-radius: 10px;
-    }
-    h1 {
-        text-align: center;
-    }
-    .question {
-        margin-bottom: 20px;
-    }
-    button {
-        background: #6366f1;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        margin-top: 20px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    button:hover {
-        background: #4f46e5;
-    }
-    .result {
-        margin-top: 30px;
-        padding: 20px;
-        background: #334155;
-        border-radius: 8px;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=EB+Garamond&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'EB Garamond', serif;
+    background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
+    color: #f5e6c8;
+    overflow-x: hidden;
+}
+
+/* Floating magical particles */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background-image: radial-gradient(#ffffff22 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: floatStars 60s linear infinite;
+    z-index: 0;
+}
+
+@keyframes floatStars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100px); }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 850px;
+    margin: 40px auto;
+    background: rgba(20, 20, 30, 0.85);
+    border: 1px solid #c9a94d;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 0 20px #000;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    color: #d4af37;
+    letter-spacing: 2px;
+}
+
+.question {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-left: 3px solid #d4af37;
+    transition: transform 0.2s;
+}
+
+.question:hover {
+    transform: scale(1.02);
+}
+
+label {
+    display: block;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+label:hover {
+    color: #ffd700;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #d4af37, #8b6f1d);
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #d4af37;
+}
+
+.result {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0,0,0,0.5);
+    border-left: 5px solid gold;
+    border-radius: 8px;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-<h1>🧙 Harry Potter Personality Quiz</h1>
+<h1>🧙 Wizarding Personality Assessment</h1>
 <p>Choose one statement from each group:</p>
 
 <form id="quizForm"></form>
 
-<button onclick="calculateResult()">Get Result</button>
+<button onclick="calculateResult()">Reveal My Character</button>
 
 <div id="result" class="result" style="display:none;"></div>
 </div>
@@ -60,104 +122,109 @@
 <script>
 const questions = [
 [
-["Tackles demanding goals with urgency and sustained energy", "A"],
-["Seeks feedback proactively and applies it quickly", "B"],
-["Inspires and mobilizes others around a compelling objective", "C"]
+["Tackles demanding goals with urgency and energy", "drive"],
+["Seeks feedback and improves quickly", "growth"],
+["Inspires others toward a vision", "leader"]
 ],
 [
-["Maintains poise and clarity when stakes are high", "C"],
-["Shares credit freely and remains modest about achievements", "B"],
-["Upholds principles and chooses the right path over the easy one", "C"]
+["Maintains clarity under pressure", "leader"],
+["Shares credit and stays humble", "humble"],
+["Chooses principle over ease", "moral"]
 ],
 [
-["Pushes through obstacles to deliver results ahead of schedule", "A"],
-["Commands attention through confident communication", "C"],
-["Welcomes critique and turns it into improvements", "B"]
+["Pushes through obstacles relentlessly", "drive"],
+["Communicates with confidence", "leader"],
+["Learns from critique", "growth"]
 ],
 [
-["Aligns teams behind a common vision", "C"],
-["Demonstrates modesty during success", "B"],
-["Acts with transparency and honesty", "C"]
+["Aligns teams to a shared goal", "leader"],
+["Stays modest in success", "humble"],
+["Acts with honesty", "moral"]
 ],
 [
-["Drives momentum and meets timelines", "A"],
-["Acknowledges others’ contributions", "B"],
-["Projects composure in formal settings", "C"]
+["Drives momentum", "drive"],
+["Acknowledges others", "humble"],
+["Projects composure", "leader"]
 ],
 [
-["Adapts rapidly after guidance", "A"],
-["Guides peers and builds commitment", "C"],
-["Chooses ethical action under pressure", "C"]
+["Adapts quickly", "growth"],
+["Guides others", "leader"],
+["Acts ethically under pressure", "moral"]
 ],
 [
-["Works relentlessly to surpass goals", "A"],
-["Incorporates feedback to improve", "B"],
-["Exudes confidence socially", "C"]
+["Works relentlessly", "drive"],
+["Improves constantly", "growth"],
+["Social confidence", "leader"]
 ],
 [
-["Rallies others to achieve goals", "A"],
-["Credits teammates first", "B"],
-["Holds high moral standards", "C"]
+["Rallies people", "drive"],
+["Credits others", "humble"],
+["High moral standards", "moral"]
 ]
 ];
 
 const form = document.getElementById("quizForm");
 
 questions.forEach((q, i) => {
-    const div = document.createElement("div");
+    let div = document.createElement("div");
     div.className = "question";
     div.innerHTML = `<h3>Question ${i+1}</h3>`;
-   
-    q.forEach((opt, j) => {
+    q.forEach(opt => {
         div.innerHTML += `
         <label>
-            <input type="radio" name="q${i}" value="${opt[1]}" required>
-            ${opt[0]}
-        </label><br>`;
+        <input type="radio" name="q${i}" value="${opt[1]}" required>
+        ${opt[0]}
+        </label>`;
     });
-   
     form.appendChild(div);
 });
 
 function calculateResult() {
-    let A = 0, B = 0, C = 0;
-    const formData = new FormData(form);
+    let scores = {drive:0, growth:0, leader:0, humble:0, moral:0};
+    let formData = new FormData(form);
 
-    for (let value of formData.values()) {
-        if (value === "A") A++;
-        if (value === "B") B++;
-        if (value === "C") C++;
+    for (let val of formData.values()) {
+        scores[val]++;
     }
 
-    let resultText = "";
+    let sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+    let top = sorted[0][0];
+    let second = sorted[1][0];
 
-    if (A > B && A > C) {
-        resultText = "🟥 Fred & George Weasley — Energetic, bold, and relentlessly driven.";
-    }
-    else if (B > A && B > C) {
-        resultText = "🟦 Neville Longbottom — Humble, resilient, and quietly powerful.";
-    }
-    else if (C > A && C > B) {
-        resultText = "🟩 Remus Lupin — Principled, calm, and deeply respected.";
-    }
-    else if (A === C && A > B) {
-        resultText = "🟨 Nymphadora Tonks — Adaptive, brave, and action-oriented.";
-    }
-    else if (B === C && B > A) {
-        resultText = "🟪 Arthur Weasley — Ethical, kind, and quietly influential.";
-    }
-    else if (A === B && A > C) {
-        resultText = "🟧 Ginny Weasley — Confident, grounded, and strong-willed.";
-    }
+    let result = "";
+
+    const combos = {
+        "drive-leader": "🟥 Kingsley Shacklebolt — Commanding, decisive, and quietly formidable.",
+        "drive-growth": "🟧 Bill Weasley — Capable, adventurous, constantly evolving.",
+        "drive-moral": "🟨 Aberforth Dumbledore — Rough-edged, but fiercely principled.",
+        "leader-moral": "🟩 Elphias Doge — Loyal, ethical, and steady in conviction.",
+        "leader-humble": "🟦 Pomona Sprout — Grounded leadership with quiet strength.",
+        "growth-humble": "🟪 Neville Longbottom — Growth through resilience and humility.",
+        "growth-moral": "🟫 Regulus Black — Transformative moral awakening.",
+        "humble-moral": "⬜ Ted Tonks — Kind, principled, and understated.",
+    };
+
+    let key = `${top}-${second}`;
+    let reverseKey = `${second}-${top}`;
+
+    if (combos[key]) result = combos[key];
+    else if (combos[reverseKey]) result = combos[reverseKey];
     else {
-        resultText = "⭐ Minerva McGonagall — Balanced, composed, and exceptionally capable.";
+        const fallback = {
+            drive: "🟥 Gideon Prewett — Bold, relentless, and unyielding.",
+            growth: "🟪 Luna Lovegood — Curious, evolving, and open-minded.",
+            leader: "🟩 Minerva McGonagall — Composed, powerful, and respected.",
+            humble: "🟦 Arthur Weasley — Gentle, kind, and grounded.",
+            moral: "🟨 Remus Lupin — Principled and deeply thoughtful."
+        };
+        result = fallback[top];
     }
 
-    const resultDiv = document.getElementById("result");
-    resultDiv.style.display = "block";
-    resultDiv.innerHTML = `<h2>Your Result:</h2><p>${resultText}</p>`;
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").innerHTML =
+        `<h2>Your Closest Match:</h2><p>${result}</p>`;
 }
 </script>
 
 </body>
-</html> 
+</html>
